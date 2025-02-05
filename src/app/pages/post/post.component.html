@@ -1,0 +1,140 @@
+<app-header></app-header>
+<div class='flex flex-col gap-6 p-28 py-10 px-3 max-w-6xl mx-auto '>
+  <lucide-angular [img]="FilePlus" class="my-icon"></lucide-angular>
+    <div class="h-full min-h-[50vh] items-center">
+        <div *ngIf='featuresPost(); then featured else  spinner'>
+        </div>
+
+
+        <ng-template #spinner>
+            <div class="flex items-center justify-center">
+                <ng-container>
+                    <span class="spinner mr-3"></span>
+                    <span>Loading...</span>
+                  </ng-container>
+              </div>
+        </ng-template>
+
+        <ng-template #featured>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <section
+                  class="mb-16 cursor-pointer"
+                  (click)="viewDetail(featuresPost()?.slug)"
+                >
+                  <div class="relative rounded-xl overflow-hidden group">
+                    <img
+                      [src]="featuresPost()?.image"
+                      alt={featuredPost?.title}
+                      class="w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-8">
+                      <div class="max-w-3xl">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded-full text-sm mb-4">
+                          {{featuresPost()?.category}}
+                        </span>
+                        <h2 class="text-4xl font-bold text-white mb-4 leading-tight">
+                          {{featuresPost()?.title}}
+                        </h2>
+                        <p class="text-gray-200 text-lg mb-4">
+                          {{featuresPost()?.subtitle}}
+                        </p>
+                        <div class="flex items-center space-x-6">
+                          <div class="flex items-center text-gray-300 gap-x-1">
+                         
+                             <lucide-angular [img]="CalendarDays" class="my-icon"></lucide-angular>
+                             {{ featuresPost()?.createdAt! | formatdate:'MMM D, YYYY' }}
+                             
+                            </div>
+                            <div class="flex items-center text-gray-300 gap-x-1">
+                            <lucide-angular [img]="Clock" class="my-icon"></lucide-angular>
+                            {{(featuresPost()?.content!.length / 1000).toFixed(0)}} mins read
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+      
+             
+                <section class="mb-16">
+                  <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-bold">Latest Posts</h3>
+                    <div class="flex space-x-2">
+                      <button
+                        (click)="handleNextRecentPosts()"
+                        class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                      >
+                        <lucide-angular [img]="ChevronLeft" class="my-icon"></lucide-angular>
+                      </button>
+                      <button
+                      (click)="handleNextRecentPosts()"
+                        class="p-2 rounded-full b  hover:bg-blue-600 transition-colors"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                      >
+                      <lucide-angular [img]="ChevronRight" class="my-icon"></lucide-angular>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="overflow-hidden rounded-xl">
+                    <div
+                    class="flex transition-transform duration-500 ease-in-out"
+                    [ngStyle]="{
+                      'transform': showNextRecentPosts ? 'translateX(-50%)' : 'translateX(0)'
+                    }"
+                  >
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 min-w-full ">
+                       
+                        @for (post of blogList$ | async; track $index) {
+                            <app-post-large  [post]='post'></app-post-large>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </section>
+      
+                <!-- Related Posts - Also with Swiper-like behavior  -->
+                <section class="mb-16">
+                  <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-bold">More Posts</h3>
+                    <div class="flex space-x-2">
+                      <button
+                      (click)="handleNextRelatedPosts()"
+                      class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
+                      [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                      >
+                      <lucide-angular [img]="ChevronLeft" class="my-icon"></lucide-angular>
+                      </button>
+                      <button
+                        (click)="handleNextRelatedPosts()"
+                        class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                      >
+                         <lucide-angular [img]="ChevronRight" class="my-icon"></lucide-angular>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="overflow-hidden">
+                    <div
+                    class="flex transition-transform duration-500 ease-in-out"
+                    [ngStyle]="{
+                      'transform': showNextRelatedPosts ? 'translateX(-50%)' : 'translateX(0)'
+                    }"
+                    >
+                      <div class="grid md:grid-cols-3  gap-6 min-w-full">
+                        @for (pos of blogList$ | async; track $index) {
+                            <app-post-md  [post]='pos'></app-post-md>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+        </ng-template>
+
+       
+          
+     
+      </div>
+  </div>
+<app-footer></app-footer>

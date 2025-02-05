@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors duration-300;
+  }
+  
+  .card {
+    @apply max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300;
+  }
+}
+
+@layer base  {
+  body {
+    @apply font-serif bg-gray-100 text-gray-700 dark:text-gray-200 dark:bg-[rgb(16,23,42)] min-h-screen;
+  }
+}
+
+body {
+  height: 100vh;
+
+}
+
+.ql-editor {
+  font-size: 1.05rem;
+}
+
+.post-content p {
+  margin-bottom: 0.5rem;
+}
+
+.post-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h2 {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content a {
+  color: rgb(73, 149, 199);
+  text-decoration: none;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+.dark .post-content a {
+  color: red;
+}
+
+
+
+.ce-related-post {
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+  }
+  
+  .ce-related-post input,
+  .ce-related-post textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .ce-related-post textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .ce-related-post input:focus,
+  .ce-related-post textarea:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+
+  .related-post-display {
+    margin: 20px 0;
+    padding:10px 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #3366cc;
+    border-radius: 4px;
+  }
+  
+  .related-post-display h3 {
+    margin: 0 0 2px 0;
+    color: #333;
+    color: #3366cc;
+  }
+  
+  .related-post-display p {
+    margin: 1px 0;
+    color: #666;
+  }
+  
+  .related-post-display a {
+    color: #3366cc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .related-post-display a:hover {
+    text-decoration: underline;
+  }
+
+
+
+  /* spiner */
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border-left-color: #fff;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }

@@ -1,0 +1,90 @@
+<app-header [fromSearch]="true"></app-header>
+
+<div class="flex flex-col md:flex-row">
+    <!-- Sidebar / Filters -->
+    <div class="p-7 py-10 border-b-slate-400 md:border-r-slate-600 md:min-h-screen border-gray-500 shadow-md">
+      <form class="flex flex-col gap-8" (ngSubmit)="handleSubmit($event)">
+        <!-- Search Term -->
+        <div class="flex items-center gap-2 justify-between">
+          <label class="whitespace-nowrap font-semibold italic">Search Term:</label>
+          <input
+            type="text"
+            id="searchTerm"
+            placeholder="Search..."
+            class="border rounded px-2 py-1"
+            [(ngModel)]="sidebarData.searchTerm"
+            name="searchTerm"
+          />
+        </div>
+        <!-- Sort -->
+        <div class="flex items-center gap-2 justify-between">
+          <label class="font-semibold italic">Sort:</label>
+          <select
+            id="sort"
+            class="border rounded px-2 py-1"
+            [(ngModel)]="sidebarData.sort"
+            name="sort"
+          >
+            <option value="desc">Latest</option>
+            <option value="asc">Oldest</option>
+          </select>
+        </div>
+        <!-- Category -->
+        <div class="flex items-center gap-2 justify-between">
+          <label class="font-semibold italic">Category:</label>
+          <input
+            type="text"
+            id="category"
+            placeholder="category"
+            class="border rounded px-2 py-1"
+            [(ngModel)]="sidebarData.category"
+            name="category"
+          />
+        </div>
+        <button
+          type="submit"
+          class="border rounded px-4 py-2 outline bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+        >
+          Apply Filters
+        </button>
+      </form>
+    </div>
+  
+    <!-- Posts Section -->
+    <div class="w-full">
+      <h1 class="text-xl px-10 font-semibold sm:border-b border-gray-300 p-3 mt-5">
+        Posts results:
+      </h1>
+      <div class="p-7 flex flex-wrap gap-4">
+        <!-- If not loading and no posts, show message -->
+        <p *ngIf="!loading && posts.length === 0" class="text-xl text-gray-500">
+          No posts found.
+        </p>
+        <!-- Loading spinner -->
+        <div *ngIf="loading" class="text-xl text-gray-500">
+            <div class="flex items-center justify-center">
+                    <ng-container>
+                        <span class="spinner mr-3"></span>
+                        <span>Loading...</span>
+                    </ng-container>
+            </div>
+        </div>
+        <!-- List of posts -->
+        <ng-container *ngIf="!loading">
+          <div *ngFor="let post of posts" class="grid sm:grid-cols-2 lg:grid-cols-3  gap-6 min-w-full">
+            <!-- Assume <app-postcard-md> is a standalone component that takes [post] as input -->
+            <app-post-md [post]="post"></app-post-md>
+          </div>
+        </ng-container>
+        <!-- Show More button if applicable -->
+        <button
+          *ngIf="showMore"
+          (click)="handleShowMore()"
+          class="text-teal-500 text-lg hover:underline p-7 w-full"
+        >
+          Show More
+        </button>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

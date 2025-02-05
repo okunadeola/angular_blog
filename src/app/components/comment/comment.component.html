@@ -1,0 +1,85 @@
+<div class="flex p-4 border-b dark:border-gray-600 text-sm">
+    <!-- User avatar -->
+    <div class="flex-shrink-0 mr-3">
+      <img
+        class="w-10 h-10 rounded-full bg-gray-200"
+        [src]="user.profilePicture"
+        [alt]="user.username"
+      />
+    </div>
+    <!-- Comment Content -->
+    <div class="flex-1">
+      <div class="flex items-center mb-1">
+        <span class="font-bold mr-1 text-xs truncate">
+          {{ user ? ('@' + user.username) : 'anonymous user' }}
+        </span>
+        <span class="text-gray-500 text-xs">
+          {{ getRelativeTime(comment.createdAt) }}
+        </span>
+      </div>
+  
+      <!-- Editing Mode -->
+      <div *ngIf="isEditing; else displayComment">
+        <textarea
+          class="mb-2 w-full border rounded p-2"
+          [(ngModel)]="editedContent"
+        ></textarea>
+        <div class="flex justify-end gap-2 text-xs">
+          <button
+            type="button"
+            (click)="handleSave()"
+            [disabled]="!editedContent"
+            class="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="isEditing = false"
+            class="px-4 py-2 border rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+  
+      <!-- Display Mode -->
+      <ng-template #displayComment>
+        <p class="text-gray-500 pb-2">{{ comment.content }}</p>
+        <div class="flex items-center pt-2 text-xs border-t dark:border-gray-700 max-w-fit gap-2">
+          <button
+            type="button"
+            (click)="onLike()"
+            class="flex items-center text-gray-400 hover:text-blue-500"
+            [ngClass]="{
+              'text-blue-500': currentUser && comment.likes.includes(currentUser._id)
+            }"
+          >
+            <!-- Replace this with your icon component if needed -->
+            👍
+          </button>
+          <p class="text-gray-400">
+            {{ comment.numberOfLikes > 0 ? comment.numberOfLikes + ' ' + (comment.numberOfLikes === 1 ? 'like' : 'likes') : '' }}
+          </p>
+          <!-- Show Edit and Delete options if the currentUser is the author or an admin -->
+          <ng-container *ngIf="currentUser && (currentUser._id === comment.userId || currentUser.isAdmin)">
+            <button
+              type="button"
+              (click)="handleEdit()"
+              class="text-gray-400 hover:text-blue-500"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              (click)="onDelete()"
+              class="text-gray-400 hover:text-red-500"
+            >
+              Delete
+            </button>
+          </ng-container>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  

@@ -1,0 +1,67 @@
+<app-header></app-header>
+
+<div class="min-h-screen mt-20">
+    <div class="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
+      <!-- Left Section -->
+      <div class="flex-1">
+        <a routerLink="/" class="self-center whitespace-nowrap text-sm sm:text-4xl font-semibold dark:text-white">
+          <span class="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-zinc-500 rounded-lg text-white">
+            Tech
+          </span>
+          Blog
+        </a>
+        <p class="text-sm mt-5">
+          This is a demo project. You can sign in with your email and password or with Google.
+        </p>
+      </div>
+      <!-- Right Section (Form) -->
+      <div class="flex-1">
+        <form class="flex flex-col gap-4" (ngSubmit)="handleSubmit($event)">
+          <div>
+            <label for="email" class="block mb-1">Your email</label>
+            <input 
+              type="email" 
+              placeholder="name@company.com" 
+              id="email" 
+              required
+              class="border rounded px-2 py-1 w-full"
+              (input)="handleChange($event)" />
+          </div>
+          <div>
+            <label for="password" class="block mb-1">Your password</label>
+            <input 
+              type="password" 
+              placeholder="**********" 
+              id="password" 
+              required
+              class="border rounded px-2 py-1 w-full"
+              (input)="handleChange($event)" />
+          </div>
+          <button 
+            type="submit" 
+            [disabled]="loading"
+            class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded py-2">
+            <ng-container *ngIf="loading; else signInText">
+              <span class="spinner mr-3"></span>
+              <span>Loading...</span>
+            </ng-container>
+            <ng-template #signInText>
+              Sign In
+            </ng-template>
+          </button>
+          <!-- Placeholder for OAuth component -->
+          <!-- <app-oauth *ngIf="false"></app-oauth> -->
+        </form>
+        <div class="flex gap-2 text-sm mt-5">
+          <span>Don't have an account?</span>
+          <a routerLink="/sign-up" class="text-blue-500 hover:underline">
+            Sign Up
+          </a>
+        </div>
+        <div *ngIf="errorMessage" class="mt-5 p-3 bg-red-100 border border-red-300 text-red-500">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
