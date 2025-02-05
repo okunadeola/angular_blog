@@ -136,10 +136,10 @@ export class CreatePostComponent implements OnInit, OnDestroy  {
     async uploadToCloudinary (file: File) {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('upload_preset', 'grfua8vf'); // Replace with your Cloudinary upload preset
+      formData.append('upload_preset', '...'); // Replace with your Cloudinary upload preset
   
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dv1cetenk/image/upload`, // Replace with your Cloudinary cloud name
+        `https://api.cloudinary.com/v1_1/.../image/upload`, // Replace with your Cloudinary cloud name
         {
           method: 'POST',
           body: formData
