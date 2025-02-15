@@ -10,6 +10,7 @@ import { PostDetailComponent } from './pages/post-detail/post-detail.component';
 import { SearchComponent } from './components/search/search.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { adminGuard } from './guards/admin.guard';
 
 
 export const routes: Routes = [
@@ -18,15 +19,16 @@ export const routes: Routes = [
     { path: 'sign-in', component: LoginComponent },
     { path: 'sign-up', component: RegisterComponent },
     { path: 'search', component: SearchComponent },
-    { path: 'admin', component: DashboardComponent, children : [
+    { path: 'admin', component: DashboardComponent, canActivate: [adminGuard], children : [
+
         { path: '', component: AdminDashboardComponent },
         { path: 'posts', component: AdminPostComponent },
         { path: 'users', component: AdminUserComponent },
         { path: 'comments', component: AdminCommentsComponent },
-        { path: 'create', component: CreatePostComponent },
+        { path: 'create/:id', component: CreatePostComponent },
     ] },
     
     // ... other admin routes
-    { path: '', redirectTo: 'home', pathMatch: 'full' }
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
   
 ];

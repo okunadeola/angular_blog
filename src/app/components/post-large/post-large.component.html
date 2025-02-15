@@ -1,5 +1,5 @@
 <div
-  class="group  rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer h-full relative"
+  class="group  rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer h-full relative min-w-[500px]"
   (click)="viewDetail(post?.slug)"
 > 
 
@@ -18,17 +18,17 @@
         {{ post?.category }}
       </span>
       <h4 class="text-xl font-semibold mb-2">{{ post?.title }}</h4>
-      <p class="text-gray-600 mb-4 line-clamp-2">{{ post?.subtitle }}</p>
+      <p class="text-gray-600 mb-4 line-clamp-2 dark:text-gray-400">{{ post?.subtitle }}</p>
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div class="flex items-center">
-            <!-- <Calendar class="h-4 w-4 mr-2 text-gray-400" /> -->
+            <lucide-angular [img]="CalendarDays" class="my-icon h-4 w-4 mr-2 text-gray-400"></lucide-angular>
             <span class="text-sm text-gray-500">
               {{ post?.createdAt! | formatdate : "MMM D, YYYY" }}
             </span>
           </div>
           <div class="flex items-center">
-            <!-- <Clock class="h-4 w-4 mr-2 text-gray-400" /> -->
+            <lucide-angular [img]="Clock" class="my-icon h-4 w-4 mr-2 text-gray-400"></lucide-angular>
             <span class="text-sm text-gray-500">
               {{ ((post?.content)!.length / 1000).toFixed(0) }} mins read
             </span>

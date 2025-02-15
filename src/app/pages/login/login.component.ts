@@ -4,14 +4,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
-import { HeaderComponent } from "../../components/header/header.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { CurrentUser } from '../../models/blog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -21,7 +20,7 @@ export class LoginComponent {
   loading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private blogService: BlogService) {}
+  constructor(private http: HttpClient, private router: Router, private blogService: BlogService, private toastr: ToastrService) {}
 
   // Update formData on input change
   handleChange(event: Event): void {
@@ -30,6 +29,12 @@ export class LoginComponent {
     const value = target.value.trim();
     // Use object spread to update formData
     this.formData = { ...this.formData, [id]: value };
+  }
+
+
+  showSuccess() {
+    console.log('Am here!')
+    this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
   // Handle form submission
@@ -67,6 +72,7 @@ export class LoginComponent {
         error: (err) => {
           this.errorMessage = err.message;
           this.loading = false;
+          this.toastr.error(err.error?.message || err.message);
         }
       });
   }

@@ -1,1 +1,82 @@
-<p>admin-comments works!</p>
+<div class="table-auto overflow-x-scroll  p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 py-16">
+    <div *ngIf="currentUser?.isAdmin">
+      <!-- Filter Input -->
+      <div class="mb-4">
+        <input
+          type="text"
+          [(ngModel)]="filterText"
+          (ngModelChange)="applyFilter()"
+          placeholder="Filter comments..."
+          class="w-full border rounded px-3 py-2 filter-input"
+        />
+      </div>
+  
+      <!-- Table: Show if not loading and there are filtered comments -->
+      <div *ngIf="!loading && filteredComments.length > 0; else noComments">
+        <div class="table-container w-[95vw] sm:w-[80vw] mx-auto shadow-md bg-white dark:bg-gray-800 rounded">
+          <table class="min-w-full text-start">
+            <thead class="bg-gray-200 dark:bg-gray-700 text-start w-full">
+              <tr class="!text-start">
+                <th class="px-4 py-2 text-start">content</th>
+                <th class="px-4 py-2 text-start">Number of likes</th>
+                <th class="px-4 py-2 text-start">Date updated</th>
+                <th class="px-4 py-2 text-start">PostId</th>
+                <th class="px-4 py-2 text-start">UserId</th>
+                <th class="px-4 py-2 text-start">Delete</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr *ngFor="let comment of filteredComments" class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <td class="px-4 py-2 line-clamp-2">{{ comment.content }}</td>
+                <td class="px-4 py-2">{{ comment.numberOfLikes }}</td>
+                <td class="px-4 py-2">{{ comment.updatedAt | date:'shortDate' }}</td>
+                <td class="px-4 py-2">
+                  {{ comment.postId ? (comment.postId | slice:0:10) + '...' : '' }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ comment.userId ? (comment.userId | slice:0:10) + '...' : '' }}
+                </td>
+                <td class="px-4 py-2">
+                  <span
+                    (click)="confirmDelete(comment._id)"
+                    class="font-medium text-red-500 hover:underline cursor-pointer"
+                  >
+                    <!-- Trash icon replacement using inline SVG -->
+                    <svg class="w-5 h-5 inline text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a2 2 0 012 2v2H8V5a2 2 0 012-2z"></path>
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Show More Button -->
+        <div *ngIf="showMore" class="mt-4">
+          <button (click)="handleShowMore()" class="w-full text-teal-500 self-center text-sm py-7">
+            Show more
+          </button>
+        </div>
+      </div>
+      <!-- No Comments or Loading Template -->
+      <ng-template #noComments>
+        <div *ngIf="loading" class="flex items-center justify-center">
+          <div class="spinner"></div>
+        </div>
+        <div *ngIf="!loading" class="text-center text-gray-500">
+          You have no comments yet!
+        </div>
+      </ng-template>
+    </div>
+  
+    <!-- Delete Confirmation Modal -->
+    <div
+        *ngIf="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+    >
+            <app-warning-popup  title="comment" (onDelete)="handleDeleteComment()" (onClose)="showModal= false"></app-warning-popup>
+    </div>
+  </div>
+  

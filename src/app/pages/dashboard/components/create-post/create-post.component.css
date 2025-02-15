@@ -1,0 +1,7 @@
+.dragover {
+    /* Change the border color to indicate a valid drop zone */
+    border-color: #3b82f6;  /* A blue shade */
+  
+    /* Change the background to a lighter blue */
+    background-color: #e0f2fe;
+  }

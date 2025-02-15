@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -21,7 +22,7 @@ export class RegisterComponent {
   errorMessage: string | null = null;
   loading: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   handleSubmit(event: Event): void {
     event.preventDefault();
@@ -38,6 +39,7 @@ export class RegisterComponent {
           if (data.success === false) {
             this.errorMessage = data.message;
           } else {
+            this.toastr.success("User created successfully");
             // On success navigate to sign in
             this.router.navigate(['/sign-in']);
           }
@@ -46,6 +48,7 @@ export class RegisterComponent {
         error: (err) => {
           this.errorMessage = err.message;
           this.loading = false;
+          this.toastr.error(err.error?.message || err.message);
         }
       });
   }

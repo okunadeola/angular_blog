@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -32,8 +33,7 @@ export class CommentComponent implements OnInit, OnChanges {
   isEditing: boolean = false;
   editedContent: string = '';
 
-  constructor(private http: HttpClient) {
-    console.log(this.currentUser)
+  constructor(private http: HttpClient, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -72,8 +72,10 @@ export class CommentComponent implements OnInit, OnChanges {
       next: () => {
         this.isEditing = false;
         this.edit.emit({ comment: this.comment, editedContent: this.editedContent });
+        this.toastr.success("Comment edited successfully");
       },
-      error: (err) => { console.log(err.message); }
+      error: (err) => { console.log(err.message);  
+        this.toastr.error(err.error?.message || err.message); }
     });
   }
 

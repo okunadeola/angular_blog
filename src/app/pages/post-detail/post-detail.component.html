@@ -20,7 +20,7 @@
          <h1 class="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
            {{ post?.title }}
          </h1>
-         <p class="text-sm text-gray-600 text-center mx-auto lg:text-lg">
+         <p class="text-sm text-gray-600 text-center mx-auto lg:text-lg dark:text-gray-400">
            {{ post?.subtitle }}
          </p>
        
@@ -76,13 +76,15 @@
                  <ng-container *ngSwitchCase="'list'">
                    <ol *ngIf="block.data.style === 'ordered'" class="list-decimal ml-6 mb-4">
                      <li *ngFor="let item of block.data.items">
-                         {{item?.content || item}}
+                        <span [innerHTML]="item?.content || item"></span>
+                         <!-- {{item?.content || item}} -->
                        <!-- {{ typeof item === 'string' ? item : item.content }} -->
                      </li>
                    </ol>
                    <ul *ngIf="block.data.style !== 'ordered'" class="list-disc ml-6 mb-4">
                      <li *ngFor="let item of block.data.items">
-                         {{item?.content || item}}
+                        <span [innerHTML]="item?.content || item"></span>
+                         <!-- {{item?.content || item}} -->
                        <!-- {{ typeof item === 'string' ? item : item.content }} -->
                      </li>
                    </ul>
@@ -97,8 +99,14 @@
                  </blockquote>
        
                  <!-- Code Block -->
-                 <pre *ngSwitchCase="'code'" class="bg-gray-200 p-4 rounded-lg my-4 overflow-x-auto">
-                   <code>{{ block.data.code }}</code>
+                 <pre *ngSwitchCase="'code'" class="bg-gray-200 p-4 rounded-lg my-4 overflow-x-auto relative">
+                    <div class="absolute right-4 top-4 rounded-md p-1 cursor-pointer bg-slate-500 hover:bg-gray-700 flex items-center justify-center text-white  text-xs" (click)="copyToClipboard(block.data.code)">
+                      <span *ngIf="!isCopying; else icon" class="dark:text-white">Copy</span>
+                      <ng-template #icon>
+                        <lucide-angular   [img]="CheckCircle" class="my-icon w-5 h-5 "  ></lucide-angular>
+                      </ng-template>
+                    </div>
+                   <code class="dark:text-gray-700">{{ block.data.code }}</code>
                  </pre>
        
                  <!-- Table Block -->
@@ -152,7 +160,7 @@
            <div class="flex items-start space-x-6">
              <img [src]="post?.user?.profilePicture || 'https://placehold.co/600x400/png'" [alt]="post?.user?.username" class="w-16 h-16 rounded-full">
              <div>
-               <h3 class="text-xl font-semibold mb-2">{{ post?.user?.username }}</h3>
+               <h3 class="text-xl font-semibold mb-2 dark:text-gray-700">{{ post?.user?.username }}</h3>
                <p class="text-gray-600 mb-4">{{ author.bio }}</p>
                <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
                  Follow
@@ -185,7 +193,7 @@
          </section>
        
          <!-- Back to Articles Button -->
-         <a routerLink="/" class="flex items-center space-x-2 mt-5 text-gray-600 hover:text-gray-900 transition-colors max-w-4xl">
+         <a routerLink="/" class="flex items-center space-x-2 mt-5 text-gray-600 hover:text-gray-900 transition-colors max-w-4xl cursor-pointer hover:bg-white p-1 rounded w-max dark:text-gray-400">
            <span class="h-5 w-5">&larr;</span>
            <span>Back to Articles</span>
          </a>

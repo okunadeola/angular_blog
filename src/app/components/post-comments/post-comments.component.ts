@@ -7,12 +7,13 @@ import { CommentComponent } from "../comment/comment.component";
 import { CurrentUser } from '../../models/blog';
 import { BlogService } from '../../services/blog.service';
 import { Subscription } from 'rxjs';
+import { WarningPopupComponent } from "../warning-popup/warning-popup.component";
 
 
 @Component({
   selector: 'app-post-comments',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, CommentComponent],
+  imports: [CommonModule, RouterModule, FormsModule, CommentComponent, WarningPopupComponent],
   templateUrl: './post-comments.component.html',
   styleUrl: './post-comments.component.css'
 })
@@ -21,13 +22,13 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
 
   // For demonstration, we simulate a current user.
   // In a real app, use a user service or state management.
-  currentUser : CurrentUser | null = null
-
+  
   comment: string = '';
   commentError: string | null = null;
   comments: any[] = [];
   showModal: boolean = false;
   commentToDelete: string | null = null;
+  currentUser : CurrentUser | null = null
   subscriptionList : Subscription[] = []
 
   constructor(private http: HttpClient, private router: Router, private blogService: BlogService) {}

@@ -1,1 +1,134 @@
-<p>admin-user works!</p>
+<div class="p-3 py-16">
+  <div *ngIf="currentUser?.isAdmin">
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="flex items-center justify-center">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Data Table -->
+    <div *ngIf="!loading && users.length > 0">
+      <!-- Filter Input -->
+      <input
+        type="text"
+        [(ngModel)]="filterText"
+        (input)="applyFilter()"
+        placeholder="Filter record..."
+        class="filter-input"
+      />
+
+      <div
+        class="table-container table-auto max-w-full mx-auto shadow-md bg-white dark:bg-gray-800 rounded overflow-auto"
+      >
+        <table class="w-full table-auto overflow-x-auto relative !text-start">
+          <thead
+            class="bg-gray-200 dark:bg-gray-700 capitalize sticky top-0 z-10"
+          >
+            <tr>
+              <th class="px-4 py-2 text-start">image</th>
+              <th class="px-4 py-2 text-start">Username</th>
+              <th class="px-4 py-2 text-start">Email</th>
+              <th class="px-4 py-2 text-start">Date created</th>
+              <th class="px-4 py-2 text-start">Admin</th>
+              <th class="px-4 py-2 text-start">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm text-center">
+            <tr
+              *ngFor="let usr of filteredUsers"
+              class="border-b dark:border-gray-600 text-start"
+            >
+              <td class="px-4 py-2">
+                <img
+                  [src]="usr.image || 'https://placehold.co/600x400/png'"
+                  alt="user"
+                  class="rounded-full w-10 h-10 cursor-pointer"
+                />
+              </td>
+              <td class="px-4 py-2">
+                {{ usr.username }}
+              </td>
+              <td class="px-4 py-2">
+                {{ usr.email }}
+              </td>
+              <td class="px-4 py-2">
+                {{ usr.createdAt | date : "shortDate" }}
+              </td>
+              <td class="px-4 py-2 text-center">
+                <ng-container *ngIf="usr.isAdmin; else notAdmin">
+                  <svg
+                    class="w-6 h-6 text-green-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                </ng-container>
+                <ng-template #notAdmin>
+                  <svg
+                    class="w-6 h-6 text-red-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </ng-template>
+              </td>
+              <td class="px-4 py-2">
+                <button
+                  (click)="confirmDelete(usr._id)"
+                  class="text-red-500 hover:underline"
+                >
+                  <!-- Trash icon placeholder -->
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Show More Button -->
+      <div *ngIf="showMore" class="mt-4">
+        <button
+          (click)="handleShowMore()"
+          class="w-full text-teal-500 text-sm py-4"
+        >
+          Show more
+        </button>
+      </div>
+    </div>
+
+    <!-- No Posts Message -->
+    <div
+      *ngIf="!loading && users.length === 0"
+      class="text-center text-gray-500"
+    >
+      You have no posts yet!
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div
+    *ngIf="showModal"
+    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+  >
+    <app-warning-popup
+      title="user"
+      (onDelete)="handleDeleteUser()"
+      (onClose)="showModal = false"
+    ></app-warning-popup>
+  </div>
+</div>

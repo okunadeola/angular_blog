@@ -7,19 +7,23 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { RestService } from '../../services/rest.service';
 import { Blog, User } from '../../models/blog';
 import { Subscription } from 'rxjs';
+import { CheckCircle, LucideAngularModule } from 'lucide-angular';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, PostCommentsComponent, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, PostCommentsComponent, HeaderComponent, FooterComponent, LucideAngularModule],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.css'
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   activatedRoute = inject(ActivatedRoute)
   constructor(private restService: RestService){}
+  readonly CheckCircle = CheckCircle;
+   private toastr = inject(ToastrService)
 
-
+  isCopying = false
   post: Blog|null = null;
   recentPosts: Array<Blog> | null = null;
   subscriptionList: Subscription[] = []
@@ -99,6 +103,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       this.post = dt[0];
       if (this.post && this.post.content) {
         this.blocks = JSON.parse(this.post.content);
+        // console.log(this.blocks); 
       }
     }
   )
@@ -128,8 +133,19 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     
   )
   this.subscriptionList.push(sub)
-  
-  
+  }
+
+  async copyToClipboard(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      this.isCopying  = true;
+      setTimeout(() => {
+        this.isCopying = false;
+      }, 2000); 
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      this.toastr.error('Failed to copy text: ', );
+    }
   }
 
 

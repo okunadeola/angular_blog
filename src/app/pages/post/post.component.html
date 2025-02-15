@@ -39,14 +39,14 @@
                           {{featuresPost()?.subtitle}}
                         </p>
                         <div class="flex items-center space-x-6">
-                          <div class="flex items-center text-gray-300 gap-x-1">
+                          <div class="flex items-center text-gray-300 gap-x-1 ">
                          
-                             <lucide-angular [img]="CalendarDays" class="my-icon"></lucide-angular>
+                             <lucide-angular [img]="CalendarDays" class="my-icon w-5 h-5"></lucide-angular>
                              {{ featuresPost()?.createdAt! | formatdate:'MMM D, YYYY' }}
                              
                             </div>
                             <div class="flex items-center text-gray-300 gap-x-1">
-                            <lucide-angular [img]="Clock" class="my-icon"></lucide-angular>
+                            <lucide-angular [img]="Clock" class="my-icon w-5 h-5"></lucide-angular>
                             {{(featuresPost()?.content!.length / 1000).toFixed(0)}} mins read
                           </div>
                         </div>
@@ -61,18 +61,19 @@
                     <h3 class="text-2xl font-bold">Latest Posts</h3>
                     <div class="flex space-x-2">
                       <button
-                        (click)="handleNextRecentPosts()"
+                      (click)="scrollLeft()"
                         class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
-                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-[#43434a]/80 backdrop-blur-sm text-white'"
                       >
-                        <lucide-angular [img]="ChevronLeft" class="my-icon"></lucide-angular>
+                        <lucide-angular [img]="ChevronLeft" class="my-icon w-5 h-5"></lucide-angular>
                       </button>
                       <button
-                      (click)="handleNextRecentPosts()"
+                    
+                      (click)="scrollRight()"
                         class="p-2 rounded-full b  hover:bg-blue-600 transition-colors"
-                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-[#43434a]/80 backdrop-blur-sm text-white'"
                       >
-                      <lucide-angular [img]="ChevronRight" class="my-icon"></lucide-angular>
+                      <lucide-angular [img]="ChevronRight" class="my-icon w-5 h-5"></lucide-angular>
                       </button>
                     </div>
                   </div>
@@ -82,11 +83,12 @@
                     [ngStyle]="{
                       'transform': showNextRecentPosts ? 'translateX(-50%)' : 'translateX(0)'
                     }"
-                  >
-                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 min-w-full ">
+                  > 
+                
+                      <div  #scrollContainer class="flex flex-row flex-nowrap gap-6 overflow-x-auto w-full scrollbar-hide scroll-smooth">
                        
                         @for (post of blogList$ | async; track $index) {
-                            <app-post-large  [post]='post'></app-post-large>
+                              <app-post-large  [post]='post'></app-post-large>
                         }
                       </div>
                     </div>
@@ -101,16 +103,16 @@
                       <button
                       (click)="handleNextRelatedPosts()"
                       class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
-                      [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                      [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-[#43434a]/80 backdrop-blur-sm text-white'"
                       >
-                      <lucide-angular [img]="ChevronLeft" class="my-icon"></lucide-angular>
+                      <lucide-angular [img]="ChevronLeft" class="my-icon w-5 h-5"></lucide-angular>
                       </button>
                       <button
                         (click)="handleNextRelatedPosts()"
                         class="p-2 rounded-full  hover:bg-blue-600 transition-colors"
-                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-blue-500 text-white'"
+                        [ngClass]="showNextRecentPosts ? 'bg-gray-200' : 'bg-[#43434a]/80 backdrop-blur-sm text-white'"
                       >
-                         <lucide-angular [img]="ChevronRight" class="my-icon"></lucide-angular>
+                         <lucide-angular [img]="ChevronRight" class="my-icon w-5 h-5"></lucide-angular>
                       </button>
                     </div>
                   </div>
@@ -121,7 +123,7 @@
                       'transform': showNextRelatedPosts ? 'translateX(-50%)' : 'translateX(0)'
                     }"
                     >
-                      <div class="grid md:grid-cols-3  gap-6 min-w-full">
+                      <div class="grid md:grid-cols-2 lg:grid-cols-3  gap-6 min-w-full">
                         @for (pos of blogList$ | async; track $index) {
                             <app-post-md  [post]='pos'></app-post-md>
                         }

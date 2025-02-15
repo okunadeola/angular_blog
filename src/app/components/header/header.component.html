@@ -1,20 +1,20 @@
-<div class="flex flex-col" [ngClass]="fromSearch ? 'pt-20' : 'pt-40'">
+<div class="flex flex-col w-full" [ngClass]="fromSearch ? 'pt-20' : 'pt-40'">
     <nav
       [ngClass]="{
         'bg-[#333333]/80 backdrop-blur-sm': isScrolled,
         'bg-[#333333]': !isScrolled
       }"
-      class="py-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      class="py-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 "
     >
 
-      <div class="flex justify-between items-center px-4">
+      <div class="flex justify-between items-center px-4 max-w-6xl mx-auto">
         <!-- Left side: Menu icon (dashboard) and Brand -->
         <div class="flex gap-2 items-center">
           <!-- Show menu icon on small screens if the path includes 'dashboard' -->
-          <div
+          <!-- Menu icon SVG -->
+          <!-- <div
             class="rounded shadow flex items-center justify-center w-10 h-10 bg-gray-700 cursor-pointer sm:hidden"
           >
-            <!-- Menu icon SVG -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-white"
@@ -24,7 +24,7 @@
             >
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
-          </div>
+          </div> -->
           <a
             [routerLink]="['/']"
             class="self-center whitespace-nowrap text-sm sm:text-xl font-semibold text-white"
@@ -45,7 +45,7 @@
             [(ngModel)]="searchTerm"
             name="search"
             placeholder="Search..."
-            class=" !rounded-2xl shadow-none outline-none"
+            class=" !rounded-full shadow-none outline-none"
             [ngStyle]="{
               'background': '#eef',
               'borderRadius': '20px',
@@ -113,17 +113,17 @@
                       *ngIf="dropdownOpen"
                       class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
                     >
-                      <div class="p-4 border-b">
+                      <div class="p-4 border-b text-purple-700">
                         <div class="text-sm"> {{  currentUser?.username }}</div>
                         <div class="text-sm font-medium truncate">{{ currentUser?.email }}</div>
                       </div>
-                      <a [routerLink]='["/admin"]' class="block px-4 py-2 hover:bg-gray-100">
+                      <a  *ngIf="currentUser?.isAdmin" [routerLink]='["/admin"]' class="block px-4 py-2 hover:bg-gray-100 dark:text-gray-600">
                         Dashboard
                       </a>
                       <div class="border-t"></div>
                       <button
                         (click)="handleSignout()"
-                        class="w-full text-left px-4 py-2 hover:bg-gray-100"
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:text-gray-600"
                       >
                         Sign out
                       </button>

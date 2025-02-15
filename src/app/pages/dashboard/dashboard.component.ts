@@ -1,17 +1,25 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SlideOutComponent } from "../../components/slide-out/slide-out.component";
+import { File, Home, LogOut, LucideAngularModule, MessageSquareText, UserRoundPen } from 'lucide-angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BlogService } from '../../services/blog.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgClass, RouterOutlet, RouterLink, FormsModule, NgIf, SlideOutComponent],
+  imports: [NgClass, RouterOutlet, RouterLink, RouterLinkActive, FormsModule, NgIf, SlideOutComponent, LucideAngularModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  readonly Home = Home
+  readonly File = File
+  readonly UserRoundPen = UserRoundPen
+  readonly MessageSquareText = MessageSquareText
+  readonly LogOut = LogOut
 
   showSlideOut = false;
 
@@ -19,7 +27,12 @@ export class DashboardComponent {
     this.showSlideOut = !this.showSlideOut;
   }
 
-  constructor(){}
+  constructor(private router: Router, private http: HttpClient, private blogService: BlogService) {}
+
+  isActive(route: string): boolean {
+    return this.router.url === route;
+  }
+
 
 
 
@@ -40,10 +53,12 @@ export class DashboardComponent {
   }
 
   // Open the create post modal
-  openModal(): void {
+  toCreatePost(): void {
     // this.isModalOpen = true;
     // this.openCreatePost()
-    this.toggleSlideOut()
+    // this.toggleSlideOut()
+
+    this.router.navigate([`admin/create/${0}`])
   }
 
   // Close the create post modal
@@ -65,5 +80,19 @@ export class DashboardComponent {
   onPostCreated(post: any) {
     console.log('New post:', post);
     // Handle the new post
+  }
+  signOut() {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http.post<any>('http://localhost:3000/api/user/signout', { headers })
+      .subscribe({
+        next: (data) => {
+            // On success navigate to sign in
+            this.blogService.signOut()
+            this.router.navigate(['/sign-in']);
+        },
+        error: (err) => {
+          console.log(err.message);
+        }
+      });
   }
 }

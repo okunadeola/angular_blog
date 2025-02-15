@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { RestService } from '../../services/rest.service';
 import { map, Observable, Subscription } from 'rxjs';
 import { Blog, User } from '../../models/blog';
@@ -26,11 +26,18 @@ export class PostComponent implements OnInit, OnDestroy {
   readonly ChevronLeft = ChevronLeft;
   readonly ChevronRight = ChevronRight;
 
+
+  private scrollAmount = 500;
   restService = inject(RestService)
   router = inject(Router)
   subscriptionList: Subscription[] = []
   blogList$: Observable<Blog[]> = new Observable<Blog[]>()
   featuresPost = signal<Blog | null>(null); 
+
+
+
+  @ViewChild('scrollContainer', { static: false })
+  scrollContainer!: ElementRef<HTMLDivElement>;
 
 
   ngOnInit(): void {
@@ -77,6 +84,29 @@ export class PostComponent implements OnInit, OnDestroy {
    handleNextRecentPosts = () => {
     this.showNextRecentPosts = !this.showNextRecentPosts
    };
+
+
+   scrollLeft(): void {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollBy({
+        left: -this.scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  scrollRight(): void {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollBy({
+        left: this.scrollAmount,
+      });
+    }
+  }
+
+
+
+
+
    handleNextRelatedPosts = () => {
      this.showNextRelatedPosts = !this.showNextRelatedPosts;
    };
