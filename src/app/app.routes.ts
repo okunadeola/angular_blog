@@ -20,7 +20,6 @@ export const routes: Routes = [
     { path: 'sign-up', component: RegisterComponent },
     { path: 'search', component: SearchComponent },
     { path: 'admin', component: DashboardComponent, canActivate: [adminGuard], children : [
-
         { path: '', component: AdminDashboardComponent },
         { path: 'posts', component: AdminPostComponent },
         { path: 'users', component: AdminUserComponent },

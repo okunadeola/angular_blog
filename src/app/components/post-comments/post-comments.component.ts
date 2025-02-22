@@ -24,7 +24,6 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
   // In a real app, use a user service or state management.
   
   comment: string = '';
-  commentError: string | null = null;
   comments: any[] = [];
   showModal: boolean = false;
   commentToDelete: string | null = null;
@@ -64,12 +63,10 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
     this.http.post<any>('http://localhost:3000/api/comment/create', payload).subscribe({
       next: (data) => {
         this.comment = '';
-        this.commentError = null;
-        // Prepend the new comment
         this.comments = [data, ...this.comments];
       },
       error: (err) => {
-        this.commentError = err.message;
+        console.log(err.message)
       }
     });
   }

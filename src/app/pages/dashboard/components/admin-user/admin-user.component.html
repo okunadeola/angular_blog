@@ -90,7 +90,8 @@
               <td class="px-4 py-2">
                 <button
                   (click)="confirmDelete(usr._id)"
-                  class="text-red-500 hover:underline"
+                  class="text-red-500 hover:underline "
+                  *ngIf="!usr.isAdmin"
                 >
                   <!-- Trash icon placeholder -->
                   🗑️

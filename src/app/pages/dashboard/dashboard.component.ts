@@ -10,7 +10,7 @@ import { BlogService } from '../../services/blog.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgClass, RouterOutlet, RouterLink, RouterLinkActive, FormsModule, NgIf, SlideOutComponent, LucideAngularModule],
+  imports: [NgClass, RouterOutlet, RouterLink, RouterLinkActive, FormsModule, NgIf, LucideAngularModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -34,9 +34,6 @@ export class DashboardComponent {
   }
 
 
-
-
-
   isSidebarOpen = false;
   isModalOpen = false;
 
@@ -54,33 +51,10 @@ export class DashboardComponent {
 
   // Open the create post modal
   toCreatePost(): void {
-    // this.isModalOpen = true;
-    // this.openCreatePost()
-    // this.toggleSlideOut()
-
     this.router.navigate([`admin/create/${0}`])
   }
 
-  // Close the create post modal
-  closeModal(): void {
-    this.isModalOpen = false;
-  }
 
-  // Handle form submission for creating a post
-  createPost(): void {
-    // Here you can add your logic to save the post,
-    // for demonstration we simply log it to the console.
-    console.log('New Post:', this.newPost);
-    // Optionally, clear the form fields:
-    this.newPost = { title: '', content: '' };
-    // Close the modal
-    this.closeModal();
-  }
-
-  onPostCreated(post: any) {
-    console.log('New post:', post);
-    // Handle the new post
-  }
   signOut() {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.http.post<any>('http://localhost:3000/api/user/signout', { headers })

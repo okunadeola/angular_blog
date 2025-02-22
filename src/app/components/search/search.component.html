@@ -5,8 +5,8 @@
     <div class="p-7 py-10 border-b-slate-400 md:border-r-slate-600 md:min-h-screen border-gray-500 shadow-md">
       <form class="flex flex-col gap-8" (ngSubmit)="handleSubmit($event)">
         <!-- Search Term -->
-        <div class="flex items-center gap-2 justify-between">
-          <label class="whitespace-nowrap font-semibold italic">Search Term:</label>
+        <div class="flex items-center gap-2 ">
+          <label class="whitespace-nowrap font-semibold italic font-mono w-1/3 pr-2">Search Term:</label>
           <input
             type="text"
             id="searchTerm"
@@ -17,8 +17,8 @@
           />
         </div>
         <!-- Sort -->
-        <div class="flex items-center gap-2 justify-between">
-          <label class="font-semibold italic">Sort:</label>
+        <div class="flex items-center gap-2 ">
+          <label class="font-semibold italic w-1/3 font-mono">Sort:</label>
           <select
             id="sort"
             class="border rounded px-2 py-1"
@@ -30,8 +30,8 @@
           </select>
         </div>
         <!-- Category -->
-        <div class="flex items-center gap-2 justify-between">
-          <label class="font-semibold italic">Category:</label>
+        <div class="flex items-center gap-2">
+          <label class="font-semibold italic w-1/3 font-mono">Category:</label>
           <input
             type="text"
             id="category"
@@ -43,7 +43,7 @@
         </div>
         <button
           type="submit"
-          class="border rounded px-4 py-2 outline bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+          class="border rounded px-4 py-2 outline bg-gradient-to-r from-purple-500 to-pink-500 text-white font-mono"
         >
           Apply Filters
         </button>
@@ -70,8 +70,8 @@
             </div>
         </div>
         <!-- List of posts -->
-        <ng-container *ngIf="!loading">
-          <div *ngFor="let post of posts" class="grid sm:grid-cols-2 lg:grid-cols-3  gap-6 min-w-full">
+        <ng-container *ngIf="!loading" class="grid sm:grid-cols-2 lg:grid-cols-3  gap-6 min-w-ful">
+          <div *ngFor="let post of posts" class="max-w-[400px]" >
             <!-- Assume <app-postcard-md> is a standalone component that takes [post] as input -->
             <app-post-md [post]="post"></app-post-md>
           </div>

@@ -90,6 +90,12 @@ export class HeaderComponent implements  OnInit, OnDestroy {
     this.themeService.theme.next(nextVal)
   }
 
+  toggleThemeLight(): void {
+    // this.theme = this.theme === 'light' ? 'dark' : 'light';
+    const nextVal = 'light'
+    this.themeService.theme.next(nextVal)
+  }
+
   handleSubmit(event: Event): void {
     event.preventDefault();
     // Get existing query params

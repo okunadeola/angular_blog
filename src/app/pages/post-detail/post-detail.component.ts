@@ -103,7 +103,6 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       this.post = dt[0];
       if (this.post && this.post.content) {
         this.blocks = JSON.parse(this.post.content);
-        // console.log(this.blocks); 
       }
     }
   )

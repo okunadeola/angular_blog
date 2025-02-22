@@ -293,10 +293,10 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   async uploadToCloudinary(file: File) {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', '...'); // Replace with your Cloudinary upload preset
+    formData.append('upload_preset', 'grfua8vf'); // Replace with your Cloudinary upload preset
 
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/.../image/upload`, // Replace with your Cloudinary cloud name
+      `https://api.cloudinary.com/v1_1/dv1cetenk/image/upload`, // Replace with your Cloudinary cloud name
       {
         method: 'POST',
         body: formData,
@@ -338,7 +338,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         .updatePost(formData, this.postId, this.currentUser?._id)
         .subscribe({
           next: (data) => {
-            console.log('Post updated successfully');
             this.toastr.success('Post updated successfully', 'Success');
             this.clearData()
           },
@@ -349,7 +348,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     } else {
       this._restService.createPost(formData).subscribe({
         next: (data) => {
-          console.log('Post created successfully');
           this.toastr.success('Post created successfully', 'Success');
           this.clearData()
         },
@@ -437,9 +435,10 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   // -------------------------------------
 
   // Process the file, here we just create an object URL for preview.
-  processFile(file: File): void {
+ async processFile(file: File): Promise<void> {
     // this.featuredImage = { url: URL.createObjectURL(file), name: file.name };
-    this.uploadToCloudinary(file)
+    const res = await this.uploadToCloudinary(file)
+    this.featuredImage = { url: res, name: file.name };
   }
 
   // Drag and drop event handlers

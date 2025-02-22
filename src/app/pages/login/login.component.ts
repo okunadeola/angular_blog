@@ -33,7 +33,6 @@ export class LoginComponent {
 
 
   showSuccess() {
-    console.log('Am here!')
     this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
@@ -54,7 +53,6 @@ export class LoginComponent {
           if (data.success === false) {
             this.errorMessage = data.message;
           } else { // On successful sign-in, navigate to home
-            // console.log(data)
             const currentUser: CurrentUser = {
               email: data?.email,
               isAdmin: data?.isAdmin,

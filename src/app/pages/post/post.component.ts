@@ -56,7 +56,6 @@ export class PostComponent implements OnInit, OnDestroy {
         user: new User(item.userId)
       })))
     );
-    // this.blogList$.subscribe(el=> console.log(el))
     this.loadFeatured()
   }
 
@@ -66,6 +65,8 @@ export class PostComponent implements OnInit, OnDestroy {
         const init = el?.find(e => e._id === res?.postId)
         if(init){
          return  this.featuresPost.set(init);
+        }else{
+          this.featuresPost.set(el[0]);
         }
       }) 
     })
@@ -76,14 +77,11 @@ export class PostComponent implements OnInit, OnDestroy {
 
 
 
-   showNextRecentPosts = false;
+
    showNextRelatedPosts = false;
 
  
-   // Carousel navigation functions
-   handleNextRecentPosts = () => {
-    this.showNextRecentPosts = !this.showNextRecentPosts
-   };
+  
 
 
    scrollLeft(): void {
@@ -102,10 +100,6 @@ export class PostComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-
-
-
 
    handleNextRelatedPosts = () => {
      this.showNextRelatedPosts = !this.showNextRelatedPosts;

@@ -75,7 +75,7 @@ export class AdminCommentsComponent implements OnInit {
 
   handleDeleteComment(): void {
     this.showModal = false;
-    this._restService.deletePost(this.currentUser?._id, this.commentIdToDelete)
+    this._restService.deleteComment(this.commentIdToDelete)
       .subscribe({
         next: data => {
           this.comments = this.comments.filter(comment => comment._id !== this.commentIdToDelete);
