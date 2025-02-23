@@ -39,7 +39,6 @@ export class HeaderComponent implements  OnInit, OnDestroy {
   path = '';
 
   ngOnInit(): void {
-    // In production use Angular Router to detect current route.
     this.path = window.location.pathname;
 
    var subs= this.themeService.theme.subscribe(el =>{
@@ -76,9 +75,7 @@ export class HeaderComponent implements  OnInit, OnDestroy {
 
 
   openModal(): void {
-    // Trigger a sidebar/modal if needed when in dashboard.
     this.modalOpen = true;
-    // (You can also emit an event to a parent component.)
   }
 
   toggleNavbar(): void {
@@ -86,13 +83,11 @@ export class HeaderComponent implements  OnInit, OnDestroy {
   }
 
   toggleTheme(): void {
-    // this.theme = this.theme === 'light' ? 'dark' : 'light';
     const nextVal = this.theme === 'light' ? 'dark' : 'light'
     this.themeService.theme.next(nextVal)
   }
 
   toggleThemeLight(): void {
-    // this.theme = this.theme === 'light' ? 'dark' : 'light';
     const nextVal = 'light'
     this.themeService.theme.next(nextVal)
   }
@@ -113,7 +108,6 @@ export class HeaderComponent implements  OnInit, OnDestroy {
     this.http.post<any>(`${this.rest.apiUrl}/user/signout`, { headers })
       .subscribe({
         next: (data) => {
-            // On success navigate to sign in
             this.blogService.signOut()
             this.router.navigate(['/sign-in']);
         },

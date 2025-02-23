@@ -45,19 +45,19 @@ export class DashboardComponent {
   isSidebarOpen = false;
   isModalOpen = false;
 
-  // Model for the new post
+
   newPost = {
     title: '',
     content: ''
   };
 
 
-  // Toggle the sidebar on small screens
+
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
-  // Open the create post modal
+
   toCreatePost(): void {
     this.router.navigate([`admin/create/${0}`])
   }

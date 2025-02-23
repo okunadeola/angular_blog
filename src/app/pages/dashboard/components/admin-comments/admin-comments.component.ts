@@ -24,7 +24,7 @@ export class AdminCommentsComponent implements OnInit {
   loading: boolean = false;
   filterText: string = '';
 
-  // Simulated current admin user; in a real app inject an auth service.
+  
   currentUser: CurrentUser | null  = null;
 
   constructor(private _restService: RestService, private _blogService: BlogService, private router: Router,  private toastr: ToastrService) {}
@@ -96,7 +96,7 @@ export class AdminCommentsComponent implements OnInit {
 
 
 
-  // Update filtered posts based on filterText
+
   applyFilter(): void {
     if (!this.filterText) {
       this.filteredComments = this.comments;

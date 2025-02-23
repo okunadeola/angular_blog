@@ -21,8 +21,6 @@ import { RestService } from '../../services/rest.service';
 export class PostCommentsComponent implements OnInit, OnDestroy {
   @Input() postId: string |null = null;
 
-  // For demonstration, we simulate a current user.
-  // In a real app, use a user service or state management.
   
   comment: string = '';
   comments: any[] = [];

@@ -27,7 +27,6 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   post: Blog|null = null;
   recentPosts: Array<Blog> | null = null;
   subscriptionList: Subscription[] = []
-  // Dummy post object; replace with your actual data model
   postData: any = {
     _id: '12345',
     title: 'Sample Article Title',
@@ -49,16 +48,15 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       ]
     }),
     tags: 'Angular,Web,JavaScript',
-    // Example user info attached to the post:
     userId: {
       username: 'johndoe',
       name: 'John Doe',
       profilePicture: 'assets/user.jpg'
     },
-    contentLength: 3500 // for calculating reading time
+    contentLength: 3500 
   };
 
-  // Dummy recent posts for the related posts section.
+
   recentPostData: any[] = [
     {
       image: 'assets/related1.jpg',
@@ -76,12 +74,11 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     }
   ];
 
-  // Dummy author bio (could be separate from post.userId)
   author: any = {
     bio: 'This is a short author bio that gives some background information.'
   };
 
-  // Parsed blocks from post.content
+
   blocks: any;
 
   ngOnInit(): void {

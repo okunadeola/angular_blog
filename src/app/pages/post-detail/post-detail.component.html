@@ -1,5 +1,5 @@
 <app-header></app-header>
-<!-- If loading, display a spinner (replace with your spinner component if needed) -->
+
 <div *ngIf='post; then postView  else  spinner'>
 </div>
 
@@ -38,7 +38,7 @@
          <div class="flex justify-between p-3 border-b border-slate-500 mx-auto w-full text-xs">
            <span>{{ post?.createdAt | date:'mediumDate' }}</span>
            <span class="italic">
-             <!-- {{ (post?.content!.length / 1000).toFixed(0) }} mins read -->
+             
              {{(post?.content!.length / 1000).toFixed(0)}} mins read
            </span>
          </div>

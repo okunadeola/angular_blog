@@ -16,12 +16,9 @@ import { RestService } from '../../services/rest.service';
   styleUrl: './comment.component.css'
 })
 export class CommentComponent implements OnInit, OnChanges {
-  // The comment data passed from the parent.
   @Input() comment: any;
-  // The currently logged in user (if any).
   @Input() currentUser: any;
-  
-  // Output events for like, edit, and delete actions.
+
   @Output() like: any = new EventEmitter<any>();
   @Output() edit:any = new EventEmitter<any>();
   @Output() delete: any = new EventEmitter<any>();
@@ -29,7 +26,7 @@ export class CommentComponent implements OnInit, OnChanges {
 
 
 
-  // Local state variables.
+ 
   user: any = {};
   isEditing: boolean = false;
   editedContent: string = '';
@@ -41,8 +38,6 @@ export class CommentComponent implements OnInit, OnChanges {
     if (this.comment) {
       this.fetchUser();
       this.editedContent = this.comment.content;
-
-      // console.log(currentUser.isAdmin)
     }
   }
 
@@ -53,7 +48,6 @@ export class CommentComponent implements OnInit, OnChanges {
     }
   }
 
-  // Fetch user info based on comment.userId.
   fetchUser(): void {
     this.http.get(`${this.rest.apiUrl}/user/${this.comment.userId}`).subscribe({
       next: (data) => { this.user = data; },
@@ -61,13 +55,13 @@ export class CommentComponent implements OnInit, OnChanges {
     });
   }
 
-  // Switch to edit mode.
+
   handleEdit(): void {
     this.isEditing = true;
     this.editedContent = this.comment.content;
   }
 
-  // Save the edited comment.
+
   handleSave(): void {
     this.http.put(`${this.rest.apiUrl}/comment/editComment/${this.comment._id}`, { content: this.editedContent }).subscribe({
       next: () => {
@@ -90,7 +84,7 @@ export class CommentComponent implements OnInit, OnChanges {
     this.delete.emit(this.comment._id);
   }
 
-  // Return a relative time string using moment.
+
   getRelativeTime(date: string): string {
     return moment(date).fromNow();
   }

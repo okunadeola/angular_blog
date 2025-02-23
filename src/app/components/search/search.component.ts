@@ -16,7 +16,7 @@ import { RestService } from '../../services/rest.service';
   styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit {
-  // Sidebar filter data
+
   sidebarData = {
     searchTerm: '',
     sort: 'desc',

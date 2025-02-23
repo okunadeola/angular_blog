@@ -25,7 +25,7 @@ export class AdminUserComponent implements OnInit {
   loading: boolean = false;
   filterText: string = '';
 
-  // Simulated current admin user; in a real app inject an auth service.
+
   currentUser: CurrentUser | null  = null;
 
   constructor(private _restService: RestService, private _blogService: BlogService, private router: Router, private toastr: ToastrService) {}
@@ -98,7 +98,7 @@ export class AdminUserComponent implements OnInit {
     this.router.navigate([`/create-post/${post._id}`]);
   }
 
-  // Update filtered posts based on filterText
+  
   applyFilter(): void {
     if (!this.filterText) {
       this.filteredUsers = this.users;

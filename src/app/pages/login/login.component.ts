@@ -16,7 +16,7 @@ import { RestService } from '../../services/rest.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  // Local state for the form data
+
   formData: any = {};
   loading: boolean = false;
   errorMessage: string | null = null;
@@ -29,12 +29,12 @@ export class LoginComponent {
     private rest: RestService
   ) {}
 
-  // Update formData on input change
+
   handleChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const id = target.id;
     const value = target.value.trim();
-    // Use object spread to update formData
+
     this.formData = { ...this.formData, [id]: value };
   }
 
@@ -42,7 +42,7 @@ export class LoginComponent {
     this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
-  // Handle form submission
+
   handleSubmit(event: Event): void {
     event.preventDefault();
     if (!this.formData.email || !this.formData.password) {
@@ -62,7 +62,7 @@ export class LoginComponent {
           if (data.success === false) {
             this.errorMessage = data.message;
           } else {
-            // On successful sign-in, navigate to home
+            
             const currentUser: CurrentUser = {
               email: data?.email,
               isAdmin: data?.isAdmin,
