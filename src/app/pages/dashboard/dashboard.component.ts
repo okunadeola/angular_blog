@@ -1,11 +1,12 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SlideOutComponent } from "../../components/slide-out/slide-out.component";
 import { File, Home, LogOut, LucideAngularModule, MessageSquareText, UserRoundPen } from 'lucide-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BlogService } from '../../services/blog.service';
+import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +28,14 @@ export class DashboardComponent {
     this.showSlideOut = !this.showSlideOut;
   }
 
-  constructor(private router: Router, private http: HttpClient, private blogService: BlogService) {}
+  constructor(private router: Router, private http: HttpClient, private blogService: BlogService, private rest:RestService) {
+     // Listen for route changes
+     this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && window.innerWidth < 1024) {
+        this.isSidebarOpen = false; // Close sidebar on small screens when navigating
+      }
+    });
+  }
 
   isActive(route: string): boolean {
     return this.router.url === route;
@@ -57,7 +65,7 @@ export class DashboardComponent {
 
   signOut() {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.post<any>('http://localhost:3000/api/user/signout', { headers })
+    this.http.post<any>(`$this.rest.apiUrl}/user/signout`, { headers })
       .subscribe({
         next: (data) => {
             // On success navigate to sign in

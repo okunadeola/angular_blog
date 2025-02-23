@@ -1,5 +1,12 @@
 # AngularBlog
 
+![img](./screenshots/s1.png)
+![img](./screenshots/s2.png)
+![img](./screenshots/s3.png)
+![img](./screenshots/s4.png)
+![img](./screenshots/s5.png)
+![img](./screenshots/s6.png)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.
 
 ## Development server

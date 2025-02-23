@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ToastrService } from 'ngx-toastr';
+import { RestService } from '../../services/rest.service';
 
 
 
@@ -22,7 +23,7 @@ export class RegisterComponent {
   errorMessage: string | null = null;
   loading: boolean = false;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private toastr: ToastrService, private rest: RestService) {}
 
   handleSubmit(event: Event): void {
     event.preventDefault();
@@ -33,14 +34,13 @@ export class RegisterComponent {
     this.loading = true;
     this.errorMessage = null;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.post<any>('http://localhost:3000/api/auth/signup', this.formData, { headers })
+    this.http.post<any>(`${this.rest.apiUrl}/auth/signup`, this.formData, { headers })
       .subscribe({
         next: (data) => {
           if (data.success === false) {
             this.errorMessage = data.message;
           } else {
             this.toastr.success("User created successfully");
-            // On success navigate to sign in
             this.router.navigate(['/sign-in']);
           }
           this.loading = false;

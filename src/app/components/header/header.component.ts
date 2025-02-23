@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BlogService } from '../../services/blog.service';
 import { Subscription } from 'rxjs';
 import { CurrentUser } from '../../models/blog';
+import { RestService } from '../../services/rest.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class HeaderComponent implements  OnInit, OnDestroy {
   private readonly router = inject(Router);
   subscriptionList: Subscription[] = []
 
-  constructor (private themeService: ThemeService, private http: HttpClient, private blogService: BlogService){
+  constructor (private themeService: ThemeService, private http: HttpClient, private blogService: BlogService, private rest: RestService){
   }
 
   isScrolled = false;
@@ -109,7 +110,7 @@ export class HeaderComponent implements  OnInit, OnDestroy {
 
   handleSignout(): void {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.post<any>('http://localhost:3000/api/user/signout', { headers })
+    this.http.post<any>(`${this.rest.apiUrl}/user/signout`, { headers })
       .subscribe({
         next: (data) => {
             // On success navigate to sign in

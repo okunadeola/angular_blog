@@ -6,13 +6,14 @@ import { Router, RouterModule } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { CurrentUser } from '../../models/blog';
 import { ToastrService } from 'ngx-toastr';
+import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule,],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   // Local state for the form data
@@ -20,7 +21,13 @@ export class LoginComponent {
   loading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private blogService: BlogService, private toastr: ToastrService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private blogService: BlogService,
+    private toastr: ToastrService,
+    private rest: RestService
+  ) {}
 
   // Update formData on input change
   handleChange(event: Event): void {
@@ -30,7 +37,6 @@ export class LoginComponent {
     // Use object spread to update formData
     this.formData = { ...this.formData, [id]: value };
   }
-
 
   showSuccess() {
     this.toastr.success('Hello world!', 'Toastr fun!');
@@ -47,22 +53,26 @@ export class LoginComponent {
     this.errorMessage = null;
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.post<any>('http://localhost:3000/api/auth/signin', this.formData, { headers})
-      .subscribe( {
+    this.http
+      .post<any>(`${this.rest.apiUrl}/auth/signin`, this.formData, {
+        headers,
+      })
+      .subscribe({
         next: (data) => {
           if (data.success === false) {
             this.errorMessage = data.message;
-          } else { // On successful sign-in, navigate to home
+          } else {
+            // On successful sign-in, navigate to home
             const currentUser: CurrentUser = {
               email: data?.email,
               isAdmin: data?.isAdmin,
               profilePicture: data?.profilePicture,
               username: data?.username,
               _id: data?._id,
-              createdAt: data?.createdAt
+              createdAt: data?.createdAt,
             };
-            this.blogService.signInSuccess(currentUser)
-            localStorage.setItem("angular_blog_token", data?.access_token )
+            this.blogService.signInSuccess(currentUser);
+            localStorage.setItem('angular_blog_token', data?.access_token);
             this.router.navigate(['/']);
           }
           this.loading = false;
@@ -71,7 +81,7 @@ export class LoginComponent {
           this.errorMessage = err.message;
           this.loading = false;
           this.toastr.error(err.error?.message || err.message);
-        }
+        },
       });
   }
 }

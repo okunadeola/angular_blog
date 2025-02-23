@@ -8,6 +8,7 @@ import { CurrentUser } from '../../models/blog';
 import { BlogService } from '../../services/blog.service';
 import { Subscription } from 'rxjs';
 import { WarningPopupComponent } from "../warning-popup/warning-popup.component";
+import { RestService } from '../../services/rest.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
   currentUser : CurrentUser | null = null
   subscriptionList : Subscription[] = []
 
-  constructor(private http: HttpClient, private router: Router, private blogService: BlogService) {}
+  constructor(private http: HttpClient, private router: Router, private blogService: BlogService, private rest:RestService) {}
   
 
   ngOnInit(): void {
@@ -44,7 +45,7 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
   }
 
   getComments(): void {
-    this.http.get<any[]>(`http://localhost:3000/api/comment/getPostComments/${this.postId}`).subscribe({
+    this.http.get<any[]>(`${this.rest.apiUrl}/comment/getPostComments/${this.postId}`).subscribe({
       next: (data) => { this.comments = data; },
       error: (err) => { console.error(err); }
     });
@@ -60,7 +61,7 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
       postId: this.postId,
       userId: this.currentUser?._id
     };
-    this.http.post<any>('http://localhost:3000/api/comment/create', payload).subscribe({
+    this.http.post<any>('${this.rest.apiUrl}/comment/create', payload).subscribe({
       next: (data) => {
         this.comment = '';
         this.comments = [data, ...this.comments];
@@ -76,7 +77,7 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/sign-in']);
       return;
     }
-    this.http.put<any>(`http://localhost:3000/api/comment/likeComment/${commentId}`, {}).subscribe({
+    this.http.put<any>(`${this.rest.apiUrl}/comment/likeComment/${commentId}`, {}).subscribe({
       next: (data) => {
         this.comments = this.comments.map((comment) =>
           comment._id === commentId
@@ -107,7 +108,7 @@ export class PostCommentsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/sign-in']);
       return;
     }
-    this.http.delete<any>(`http://localhost:3000/api/comment/deleteComment/${commentId}`).subscribe({
+    this.http.delete<any>(`${this.rest.apiUrl}/comment/deleteComment/${commentId}`).subscribe({
       next: (_) => {
         this.comments = this.comments.filter((comment) => comment._id !== commentId);
       },

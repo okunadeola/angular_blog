@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PostMdComponent } from "../post-md/post-md.component";
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
+import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +30,8 @@ export class SearchComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private rest: RestService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class SearchComponent implements OnInit {
     const currentParams = this.route.snapshot.queryParams;
     const searchQuery = new URLSearchParams(currentParams).toString();
 
-    this.http.get<any>(`http://localhost:3000/api/post/getposts?${searchQuery}`).subscribe({
+    this.http.get<any>(`${this.rest.apiUrl}/post/getposts?${searchQuery}`).subscribe({
       next: data => {
         this.posts = data.posts;
         this.loading = false;
@@ -82,7 +84,7 @@ export class SearchComponent implements OnInit {
     const currentParams = { ...this.route.snapshot.queryParams, startIndex: startIndex.toString() };
     const searchQuery = new URLSearchParams(currentParams).toString();
 
-    this.http.get<any>(`http://localhost:3000/api/post/getposts?${searchQuery}`).subscribe({
+    this.http.get<any>(`${this.rest.apiUrl}/post/getposts?${searchQuery}`).subscribe({
       next: data => {
         this.posts = [...this.posts, ...data.posts];
         this.showMore = data.posts.length === 9;

@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { RestService } from '../../services/rest.service';
 
 
 
@@ -33,7 +34,7 @@ export class CommentComponent implements OnInit, OnChanges {
   isEditing: boolean = false;
   editedContent: string = '';
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(private http: HttpClient, private toastr: ToastrService, private rest: RestService) {
   }
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class CommentComponent implements OnInit, OnChanges {
 
   // Fetch user info based on comment.userId.
   fetchUser(): void {
-    this.http.get(`http://localhost:3000/api/user/${this.comment.userId}`).subscribe({
+    this.http.get(`${this.rest.apiUrl}/user/${this.comment.userId}`).subscribe({
       next: (data) => { this.user = data; },
       error: (err) => { console.log(err.message); }
     });
@@ -68,7 +69,7 @@ export class CommentComponent implements OnInit, OnChanges {
 
   // Save the edited comment.
   handleSave(): void {
-    this.http.put(`http://localhost:3000/api/comment/editComment/${this.comment._id}`, { content: this.editedContent }).subscribe({
+    this.http.put(`${this.rest.apiUrl}/comment/editComment/${this.comment._id}`, { content: this.editedContent }).subscribe({
       next: () => {
         this.isEditing = false;
         this.edit.emit({ comment: this.comment, editedContent: this.editedContent });

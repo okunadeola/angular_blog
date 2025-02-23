@@ -100,7 +100,7 @@
                     >
                       <div class="p-4 border-b text-purple-700">
                         <div class="text-sm"> {{  currentUser?.username }}</div>
-                        <div class="text-sm font-medium truncate">{{ currentUser?.email }}</div>
+                        <!-- <div class="text-sm font-medium truncate">{{ currentUser?.email }}</div> -->
                       </div>
                       <a  *ngIf="currentUser?.isAdmin" [routerLink]='["/admin"]' (click)="toggleThemeLight()" class="block px-4 py-2 hover:bg-gray-100 dark:text-gray-600">
                         Dashboard
