@@ -93,9 +93,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   currentUser: CurrentUser | null = null;
 
-  // Recent blogs (for sidebar "Recent Posts")
+
   recentBlogs: any[] = [
-    // Dummy data; replace with your actual recent posts.
     {
       id: 1,
       title: 'First Blog Post',
@@ -110,7 +109,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // Optional flag to track drag-over state for styling
   isDragOver: boolean = false;
 
   constructor(
@@ -183,13 +181,11 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Wait 5 seconds before updating the editor (if needed)
     setTimeout(() => {
     if (this.editor && typeof this.editor.destroy === 'function') {
         this.editor.destroy();
         this.initEditor(data);
     } else {
-      // If there's no editor instance, simply initialize it
       this.initEditor(data);
     }
   }, 5000);
