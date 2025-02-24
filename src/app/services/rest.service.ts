@@ -12,7 +12,7 @@ export class RestService {
 
   // apiUrl: string = "http://localhost:3000";
 
-  apiUrl: string = 'https://react-blog-5nn6.onrender.com/api'
+  apiUrl: string = 'http://localhost:3000/api'
 
 
   getAllPost (): Observable<any>{
